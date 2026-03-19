@@ -1,7 +1,7 @@
 import { useId, useMemo } from "react";
-import { createDeptFormNames } from "../create-dept-form.constants";
+import { createDebtFormNames } from "../create-debt-form.constants";
 
-const { amount, debtDate, returnDate, to } = createDeptFormNames;
+const { amount, debtDate, returnDate, to } = createDebtFormNames;
 
 export const useFormFields = () => {
   const toId = useId();

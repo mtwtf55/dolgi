@@ -6,24 +6,29 @@ import { Input } from "@ui/input";
 import { useId } from "react";
 import { Controller, useForm, type SubmitHandler } from "react-hook-form";
 import {
-  createDeptFormDefaultValues,
-  createDeptFormSchema,
-} from "./create-dept-form.constants";
-import type { CreateDeptFormValues } from "./create-dept-form.types";
+  createDebtFormDefaultValues,
+  createDebtFormSchema,
+} from "./create-debt-form.constants";
+import type { CreateDebtFormValues } from "./create-debt-form.types";
 import { useFormFields } from "./hooks/use-form-fields";
+import { useDebtStore } from "@/stores/use-debt-store";
+import { toast } from "sonner";
 
-export const CreateDeptForm = () => {
-  const form = useForm<CreateDeptFormValues>({
-    defaultValues: createDeptFormDefaultValues,
-    resolver: standardSchemaResolver(createDeptFormSchema),
+export const CreateDebtForm = () => {
+  const form = useForm<CreateDebtFormValues>({
+    defaultValues: createDebtFormDefaultValues,
+    resolver: standardSchemaResolver(createDebtFormSchema),
     mode: "onSubmit",
   });
+
+  const lend = useDebtStore((state) => state.lend);
 
   const formId = useId();
   const fields = useFormFields();
 
-  const handleSubmit: SubmitHandler<CreateDeptFormValues> = (formValues) => {
-    console.log({ formValues });
+  const handleSubmit: SubmitHandler<CreateDebtFormValues> = (formValues) => {
+    lend({ ...formValues });
+    toast.success("Запись была успешно добавлена");
     form.reset();
   };
 

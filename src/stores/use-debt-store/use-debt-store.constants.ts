@@ -1,0 +1,1 @@
+export const DEPT_STORE_PERSIST_KEY = 'dept-store'
