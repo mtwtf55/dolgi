@@ -5,7 +5,7 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "@ui/navigation-menu";
-import { navItems } from "./constants";
+import { navItems } from "./navigation.constants";
 import { Link } from "@tanstack/react-router";
 
 export function Navigation() {

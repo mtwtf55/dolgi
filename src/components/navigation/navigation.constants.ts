@@ -1,4 +1,4 @@
-import type { NavigationItem } from "./types";
+import type { NavigationItem } from "./navigation.types";
 
 export const navItems: NavigationItem[] = [
   {
@@ -6,13 +6,14 @@ export const navItems: NavigationItem[] = [
     label: "Главная",
   },
   {
-    to: "/history",
-    label: "История",
-  },
-  {
     to: "/deptors",
     label: "Должники",
   },
+  {
+    to: "/history",
+    label: "История",
+  },
+
   {
     to: "/settings",
     label: "Настройки",

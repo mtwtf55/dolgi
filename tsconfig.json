@@ -6,10 +6,15 @@
       "@ui/*": [
         "./src/components/ui/*"
       ],
+      "@components/*": [
+        "./src/components/*"
+      ],
       "@/*": [
         "./src/*"
       ],
-    }
+    },
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
   },
   "references": [
     {

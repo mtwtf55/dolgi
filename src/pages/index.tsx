@@ -1,3 +1,4 @@
+import { CreateDeptForm } from "@components/create-dept-form";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
@@ -7,7 +8,7 @@ export const Route = createFileRoute("/")({
 function Home() {
   return (
     <div>
-      <h3>Welcome Home!</h3>
+      <CreateDeptForm />
     </div>
   );
 }
