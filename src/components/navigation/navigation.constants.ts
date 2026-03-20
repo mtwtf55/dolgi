@@ -6,7 +6,7 @@ export const navItems: NavigationItem[] = [
     label: "Главная",
   },
   {
-    to: "/deptors",
+    to: "/debtors",
     label: "Должники",
   },
   {

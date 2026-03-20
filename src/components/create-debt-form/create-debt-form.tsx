@@ -50,6 +50,7 @@ export const CreateDebtForm = () => {
               return (
                 <Controller
                   name={name}
+                  key={id}
                   control={form.control}
                   render={({ field, fieldState }) => (
                     <Field data-invalid={fieldState.invalid}>

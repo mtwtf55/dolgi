@@ -12,8 +12,8 @@ import { Route as rootRouteImport } from './pages/__root'
 import { Route as SettingsRouteImport } from './pages/settings'
 import { Route as HistoryRouteImport } from './pages/history'
 import { Route as IndexRouteImport } from './pages/index'
-import { Route as DeptorsIndexRouteImport } from './pages/deptors/index'
-import { Route as DeptorsDeptorIdRouteImport } from './pages/deptors/$deptorId'
+import { Route as DebtorsIndexRouteImport } from './pages/debtors/index'
+import { Route as DebtorsDebtorIdRouteImport } from './pages/debtors/$debtorId'
 
 const SettingsRoute = SettingsRouteImport.update({
   id: '/settings',
@@ -30,14 +30,14 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DeptorsIndexRoute = DeptorsIndexRouteImport.update({
-  id: '/deptors/',
-  path: '/deptors/',
+const DebtorsIndexRoute = DebtorsIndexRouteImport.update({
+  id: '/debtors/',
+  path: '/debtors/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DeptorsDeptorIdRoute = DeptorsDeptorIdRouteImport.update({
-  id: '/deptors/$deptorId',
-  path: '/deptors/$deptorId',
+const DebtorsDebtorIdRoute = DebtorsDebtorIdRouteImport.update({
+  id: '/debtors/$debtorId',
+  path: '/debtors/$debtorId',
   getParentRoute: () => rootRouteImport,
 } as any)
 
@@ -45,44 +45,44 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/history': typeof HistoryRoute
   '/settings': typeof SettingsRoute
-  '/deptors/$deptorId': typeof DeptorsDeptorIdRoute
-  '/deptors/': typeof DeptorsIndexRoute
+  '/debtors/$debtorId': typeof DebtorsDebtorIdRoute
+  '/debtors/': typeof DebtorsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/history': typeof HistoryRoute
   '/settings': typeof SettingsRoute
-  '/deptors/$deptorId': typeof DeptorsDeptorIdRoute
-  '/deptors': typeof DeptorsIndexRoute
+  '/debtors/$debtorId': typeof DebtorsDebtorIdRoute
+  '/debtors': typeof DebtorsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/history': typeof HistoryRoute
   '/settings': typeof SettingsRoute
-  '/deptors/$deptorId': typeof DeptorsDeptorIdRoute
-  '/deptors/': typeof DeptorsIndexRoute
+  '/debtors/$debtorId': typeof DebtorsDebtorIdRoute
+  '/debtors/': typeof DebtorsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/history' | '/settings' | '/deptors/$deptorId' | '/deptors/'
+  fullPaths: '/' | '/history' | '/settings' | '/debtors/$debtorId' | '/debtors/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/history' | '/settings' | '/deptors/$deptorId' | '/deptors'
+  to: '/' | '/history' | '/settings' | '/debtors/$debtorId' | '/debtors'
   id:
     | '__root__'
     | '/'
     | '/history'
     | '/settings'
-    | '/deptors/$deptorId'
-    | '/deptors/'
+    | '/debtors/$debtorId'
+    | '/debtors/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   HistoryRoute: typeof HistoryRoute
   SettingsRoute: typeof SettingsRoute
-  DeptorsDeptorIdRoute: typeof DeptorsDeptorIdRoute
-  DeptorsIndexRoute: typeof DeptorsIndexRoute
+  DebtorsDebtorIdRoute: typeof DebtorsDebtorIdRoute
+  DebtorsIndexRoute: typeof DebtorsIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -108,18 +108,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/deptors/': {
-      id: '/deptors/'
-      path: '/deptors'
-      fullPath: '/deptors/'
-      preLoaderRoute: typeof DeptorsIndexRouteImport
+    '/debtors/': {
+      id: '/debtors/'
+      path: '/debtors'
+      fullPath: '/debtors/'
+      preLoaderRoute: typeof DebtorsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/deptors/$deptorId': {
-      id: '/deptors/$deptorId'
-      path: '/deptors/$deptorId'
-      fullPath: '/deptors/$deptorId'
-      preLoaderRoute: typeof DeptorsDeptorIdRouteImport
+    '/debtors/$debtorId': {
+      id: '/debtors/$debtorId'
+      path: '/debtors/$debtorId'
+      fullPath: '/debtors/$debtorId'
+      preLoaderRoute: typeof DebtorsDebtorIdRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -129,8 +129,8 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   HistoryRoute: HistoryRoute,
   SettingsRoute: SettingsRoute,
-  DeptorsDeptorIdRoute: DeptorsDeptorIdRoute,
-  DeptorsIndexRoute: DeptorsIndexRoute,
+  DebtorsDebtorIdRoute: DebtorsDebtorIdRoute,
+  DebtorsIndexRoute: DebtorsIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -1,9 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/deptors/$deptorId')({
-  component: DeptorInfo,
+export const Route = createFileRoute('/debtors/$debtorId')({
+  component: DebtorInfo,
 })
 
-function DeptorInfo() {
+function DebtorInfo() {
   return <div>Hello "/deptors/$deptorId"!</div>
 }

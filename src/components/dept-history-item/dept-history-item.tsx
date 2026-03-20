@@ -1,3 +1,5 @@
+import { DateFormatters } from "@/constants/date";
+import { getInitials } from "@/utils";
 import { Avatar, AvatarFallback } from "@ui/avatar";
 import {
   Item,
@@ -6,10 +8,9 @@ import {
   ItemMedia,
   ItemTitle,
 } from "@ui/item";
-import type { DeptHistoryItemProps } from "./dept-history-item.types";
-import { formatDate, getInitials } from "./dept-history-item.utils";
-import { DateFormatters } from "@/constants/date";
 import { format } from "date-fns";
+import type { DeptHistoryItemProps } from "./dept-history-item.types";
+import { formatDate } from "./dept-history-item.utils";
 
 export const DeptHistoryItem = ({ item }: DeptHistoryItemProps) => {
   const { amount, debtDate, to, returnDate, createdAt } = item;
@@ -34,13 +35,13 @@ export const DeptHistoryItem = ({ item }: DeptHistoryItemProps) => {
           <b>{to}</b> {"->"} {amount} BYN
         </ItemTitle>
         <ItemDescription>
-          <p>
+          <div>
             Занял <b>{debtDateFormatted}</b>.
-          </p>
+          </div>
           {returnDateFormatted && (
-            <p>
+            <div>
               Должен вернуть <b>{returnDateFormatted}</b>
-            </p>
+            </div>
           )}
         </ItemDescription>
       </ItemContent>
