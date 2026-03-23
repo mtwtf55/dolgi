@@ -4,6 +4,7 @@ export type DebtStoreState = {
 
 export type DebtStoreActions = {
   lend: (payload: LendActionPayload) => void;
+  getDebtorKeyByName: (name: string) => string | null;
 };
 
 export type DebtStoreHistoryItem = {

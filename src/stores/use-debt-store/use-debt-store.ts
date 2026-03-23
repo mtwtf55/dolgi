@@ -6,7 +6,7 @@ import { slugifyToLatin } from "@/utils";
 
 export const useDebtStore = create<DebtStoreState & DebtStoreActions>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       debtHistory: [],
       lend: (payload) =>
         set((state) => {
@@ -31,6 +31,13 @@ export const useDebtStore = create<DebtStoreState & DebtStoreActions>()(
             ],
           };
         }),
+      getDebtorKeyByName: (name) => {
+        const debtor = get().debtHistory.find(
+          ({ to: { name: debtorName } }) => debtorName === name,
+        );
+
+        return debtor ? debtor.to.key : null;
+      },
     }),
     {
       name: DEPT_STORE_PERSIST_KEY,

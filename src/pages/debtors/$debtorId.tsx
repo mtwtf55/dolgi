@@ -1,9 +1,11 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute('/debtors/$debtorId')({
+export const Route = createFileRoute("/debtors/$debtorId")({
   component: DebtorInfo,
-})
+});
 
 function DebtorInfo() {
-  return <div>Hello "/deptors/$deptorId"!</div>
+  const { debtorId } = Route.useParams();
+
+  return <div>Hello {debtorId}</div>;
 }

@@ -3,11 +3,11 @@ import type { DebtorCardProps } from "./debtor-card.types";
 import { Avatar, AvatarFallback } from "@ui/avatar";
 import { getInitials } from "@/utils";
 
-export const DebtorCard = ({ amount, name }: DebtorCardProps) => {
+export const DebtorCard = ({ amount, name, onClick }: DebtorCardProps) => {
   const initials = getInitials(name);
 
   return (
-    <Item variant="outline">
+    <Item variant="outline" onClick={onClick}>
       <ItemMedia>
         <Avatar size="lg">
           <AvatarFallback>{initials}</AvatarFallback>
