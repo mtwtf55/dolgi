@@ -9,7 +9,7 @@ export const useFormFields = () => {
   const debtDateId = useId();
   const returnDateId = useId();
 
-  return useMemo(
+  const mainFields = useMemo(
     () => [
       {
         id: toId,
@@ -31,25 +31,27 @@ export const useFormFields = () => {
           step: "0.01",
         },
       },
+    ],
+    [amountId, toId],
+  );
+
+  const extraFields = useMemo(
+    () => [
       {
         id: debtDateId,
         name: debtDate,
         label: "Дата выдачи",
         required: true,
-        inputProps: {
-          type: "date",
-        },
       },
       {
         id: returnDateId,
         name: returnDate,
         label: "Дата возврата",
         required: false,
-        inputProps: {
-          type: "date",
-        },
       },
     ],
-    [amountId, debtDateId, returnDateId, toId],
+    [debtDateId, returnDateId],
   );
+
+  return { mainFields, extraFields };
 };

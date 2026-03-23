@@ -1,9 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { DebtStoreActions, DebtStoreState } from "./use-debt-store.types";
 import { DEPT_STORE_PERSIST_KEY } from "./use-debt-store.constants";
-import { format } from "date-fns";
-import { DateFormatters } from "@/constants/date";
+import type { DebtStoreActions, DebtStoreState } from "./use-debt-store.types";
 
 export const useDebtStore = create<DebtStoreState & DebtStoreActions>()(
   persist(
@@ -15,7 +13,7 @@ export const useDebtStore = create<DebtStoreState & DebtStoreActions>()(
             {
               ...payload,
               id: crypto.randomUUID(),
-              createdAt: format(new Date(), DateFormatters.ISO_DATE),
+              createdAt: new Date(),
             },
             ...state.debtHistory,
           ],

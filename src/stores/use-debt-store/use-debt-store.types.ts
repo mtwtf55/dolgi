@@ -10,9 +10,9 @@ export type DebtStoreHistoryItem = {
   id: string;
   to: string;
   amount: number;
-  debtDate: string;
-  returnDate?: string;
-  createdAt: string;
+  debtDate: Date;
+  returnDate?: Date;
+  createdAt: Date;
 };
 
 type LendActionPayload = Pick<
