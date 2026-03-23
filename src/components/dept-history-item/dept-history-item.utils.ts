@@ -4,7 +4,7 @@ import { ru as ruLocale } from "date-fns/locale";
 
 const { DATE_MONTH_HUMAN: DATE_MONTH } = DateFormatters;
 
-export const formatDate = (date: string) =>
+export const formatDate = (date: Date) =>
   format(new Date(date), DATE_MONTH, {
     locale: ruLocale,
   });

@@ -1,6 +1,6 @@
 import { add, isBefore, isToday, isWithinInterval, startOfDay } from "date-fns";
 
-export const getStatusStyles = (returnDate: string) => {
+export const getStatusStyles = (returnDate: Date) => {
   if (isBefore(returnDate, startOfDay(new Date()))) {
     return "bg-red-100";
   }

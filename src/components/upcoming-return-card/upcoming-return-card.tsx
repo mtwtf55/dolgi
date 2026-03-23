@@ -15,9 +15,13 @@ import { ru } from "date-fns/locale";
 import { getStatusStyles } from "./upcoming-return-card.utils";
 
 export const UpcomingReturnCard = ({ item }: UpcomingReturnCardProps) => {
-  const { to, returnDate, amount } = item;
+  const {
+    to: { name },
+    returnDate,
+    amount,
+  } = item;
 
-  const initials = getInitials(to);
+  const initials = getInitials(name);
   const formattedDate = format(returnDate, DateFormatters.DATE_MONTH_HUMAN, {
     locale: ru,
   });
@@ -31,7 +35,7 @@ export const UpcomingReturnCard = ({ item }: UpcomingReturnCardProps) => {
       </ItemMedia>
       <ItemContent>
         <ItemTitle>
-          <b>{to}</b>
+          <b>{name}</b>
         </ItemTitle>
         <ItemDescription>{amount} BYN</ItemDescription>
       </ItemContent>

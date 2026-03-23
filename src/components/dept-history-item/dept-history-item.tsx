@@ -13,11 +13,17 @@ import type { DeptHistoryItemProps } from "./dept-history-item.types";
 import { formatDate } from "./dept-history-item.utils";
 
 export const DeptHistoryItem = ({ item }: DeptHistoryItemProps) => {
-  const { amount, debtDate, to, returnDate, createdAt } = item;
+  const {
+    amount,
+    debtDate,
+    to: { name },
+    returnDate,
+    createdAt,
+  } = item;
 
   const debtDateFormatted = formatDate(debtDate);
   const returnDateFormatted = returnDate ? formatDate(returnDate) : null;
-  const initials = getInitials(to);
+  const initials = getInitials(name);
   const createdAtFormatted = format(
     new Date(createdAt),
     DateFormatters.DATE_MONTH,
@@ -32,7 +38,7 @@ export const DeptHistoryItem = ({ item }: DeptHistoryItemProps) => {
       </ItemMedia>
       <ItemContent>
         <ItemTitle>
-          <b>{to}</b> {"->"} {amount} BYN
+          <b>{name}</b> {"->"} {amount} BYN
         </ItemTitle>
         <ItemDescription>
           <div>

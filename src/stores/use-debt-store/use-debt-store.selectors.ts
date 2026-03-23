@@ -3,8 +3,8 @@ import type { DebtStoreState } from "./use-debt-store.types";
 import { hasReturnDate } from "./use-debt-store.utils";
 
 export const selectDebtorsSummary = (state: DebtStoreState) => {
-  const map = state.debtHistory.reduce((acc, { to, amount }) => {
-    acc.set(to, (acc.get(to) || 0) + amount);
+  const map = state.debtHistory.reduce((acc, { to: { name }, amount }) => {
+    acc.set(name, (acc.get(name) || 0) + amount);
     return acc;
   }, new Map<string, number>());
 

@@ -8,7 +8,10 @@ export type DebtStoreActions = {
 
 export type DebtStoreHistoryItem = {
   id: string;
-  to: string;
+  to: {
+    name: string;
+    key: string;
+  };
   amount: number;
   debtDate: Date;
   returnDate?: Date;
@@ -17,5 +20,5 @@ export type DebtStoreHistoryItem = {
 
 type LendActionPayload = Pick<
   DebtStoreHistoryItem,
-  "amount" | "debtDate" | "returnDate" | "to"
->;
+  "amount" | "debtDate" | "returnDate"
+> & { to: DebtStoreHistoryItem["to"]["name"] };
