@@ -18,3 +18,13 @@ export const selectUpcomingReturns = (state: DebtStoreState) => {
 
   return itemsWithReturnDate;
 };
+
+export const selectDebtorHistory = (state: DebtStoreState, key: string) => {
+  return state.debtHistory.filter((item) => item.to.key === key);
+};
+
+export const selectDebtorNameByKey = (state: DebtStoreState, key: string) => {
+  const findResult = state.debtHistory.find((item) => item.to.key === key);
+
+  return findResult ? findResult.to.name : null;
+};

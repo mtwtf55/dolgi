@@ -1,4 +1,8 @@
-import { selectDebtorsSummary, useDebtStore } from "@/stores/use-debt-store";
+import {
+  getDebtorKeyByName,
+  selectDebtorsSummary,
+  useDebtStore,
+} from "@/stores/use-debt-store";
 import { DebtorCard } from "@components/debtor-card";
 import { NoDataPlaceholder } from "@components/no-data-placeholder";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
@@ -10,7 +14,6 @@ export const Route = createFileRoute("/debtors/")({
 
 function Debtors() {
   const debtors = useDebtStore(useShallow(selectDebtorsSummary));
-  const getDebtorKeyByName = useDebtStore((state) => state.getDebtorKeyByName);
   const navigate = useNavigate();
 
   const handleDebtorSelected = (debtorName: string) => () => {

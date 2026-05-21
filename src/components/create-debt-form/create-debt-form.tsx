@@ -1,4 +1,4 @@
-import { useDebtStore } from "@/stores/use-debt-store";
+import { lend } from "@/stores/use-debt-store";
 import { standardSchemaResolver } from "@hookform/resolvers/standard-schema";
 import { Button } from "@ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@ui/card";
@@ -27,7 +27,6 @@ export const CreateDebtForm = () => {
     resolver: standardSchemaResolver(createDebtFormSchema),
     mode: "onSubmit",
   });
-  const lend = useDebtStore((state) => state.lend);
 
   const formId = useId();
   const { mainFields, extraFields } = useFormFields();

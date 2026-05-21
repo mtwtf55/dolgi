@@ -2,11 +2,6 @@ export type DebtStoreState = {
   debtHistory: DebtStoreHistoryItem[];
 };
 
-export type DebtStoreActions = {
-  lend: (payload: LendActionPayload) => void;
-  getDebtorKeyByName: (name: string) => string | null;
-};
-
 export type DebtStoreHistoryItem = {
   id: string;
   to: {
@@ -19,7 +14,7 @@ export type DebtStoreHistoryItem = {
   createdAt: Date;
 };
 
-type LendActionPayload = Pick<
+export type LendActionPayload = Pick<
   DebtStoreHistoryItem,
   "amount" | "debtDate" | "returnDate"
 > & { to: DebtStoreHistoryItem["to"]["name"] };
