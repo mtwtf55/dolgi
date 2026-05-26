@@ -32,3 +32,13 @@ export const selectItemById = (state: HistoryStoreState, id: HistoryItem['id']) 
 
   return findResult;
 };
+
+export const selectHistoryItemAmout = (state: HistoryStoreState, id: HistoryItem['id']) => {
+  const findResult = state.history.find((item) => item.id === id);
+
+  if (!findResult) {
+    throw new Error('Not found');
+  }
+
+  return findResult.amount;
+};

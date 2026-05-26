@@ -34,11 +34,12 @@ export const DebtHistoryItem = ({ itemId }: DebtHistoryItemProps) => {
       </ItemMedia>
       <ItemContent>
         <ItemTitle>
-          <b>{getFullName(actor.firstName, actor.lastName)}</b> {'->'} {historyItem.amount} BYN
+          <b>{getFullName(actor.firstName, actor.lastName)}</b>{' '}
+          {historyItem.amount < 0 ? '<-' : '->'} {Math.abs(historyItem.amount)} BYN
         </ItemTitle>
         <ItemDescription>
           <div>
-            Занял <b>{debtDateFormatted}</b>.
+            {historyItem.amount < 0 ? 'Вернул' : 'Занял'} <b>{debtDateFormatted}</b>.
           </div>
           {returnDateFormatted && (
             <div>

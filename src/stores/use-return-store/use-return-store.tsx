@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import type { HistoryItem } from '../use-history-store';
 import { RETURN_STORE_PERSIST_KEY } from './use-return-store.constants';
 import type {
   CreateReturnItemPayload,
@@ -23,4 +24,10 @@ export const createReturnItem = (payload: CreateReturnItemPayload) => {
   }
 
   useReturnStore.setState((state) => ({ items: [...state.items, { historyItemId, returnDate }] }));
+};
+
+export const deleteReturnItem = (historyItemId: HistoryItem['id']) => {
+  useReturnStore.setState((state) => ({
+    items: state.items.filter((item) => item.historyItemId !== historyItemId),
+  }));
 };

@@ -2,7 +2,8 @@ import { DateFormatters } from '@/constants/date';
 import { useConfirmModal } from '@/hooks/useConfirmModal';
 import { useDebtorsStore } from '@/stores/use-debtors-store/use-debtors-store';
 import { selectDebtorById } from '@/stores/use-debtors-store/use-debtors-store.selectors';
-import { selectItemById, useHistoryStore } from '@/stores/use-history-store';
+import { createHistoryItem, selectItemById, useHistoryStore } from '@/stores/use-history-store';
+import { deleteReturnItem } from '@/stores/use-return-store/use-return-store';
 import { getFullName, getInitials } from '@/utils';
 import { ConfirmModal } from '@components/confirm-modal';
 import { Avatar, AvatarFallback } from '@ui/avatar';
@@ -17,6 +18,7 @@ import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle }
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { BadgeCheck } from 'lucide-react';
+import { toast } from 'sonner';
 import { useShallow } from 'zustand/shallow';
 import type { UpcomingReturnCardProps } from './upcoming-return-card.types';
 import { getStatusStyles } from './upcoming-return-card.utils';
@@ -38,6 +40,10 @@ export const UpcomingReturnCard = ({ itemId, returnDate }: UpcomingReturnCardPro
     const result = await confirmReturn();
 
     if (!result) return;
+
+    createHistoryItem({ actorId: actor.id, amount: -historyItem.amount, date: new Date() });
+    deleteReturnItem(historyItem.id);
+    toast.success('Долг успешно возвращен');
   };
 
   return (
