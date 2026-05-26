@@ -1,16 +1,14 @@
-import {
-    selectDebtorHistory,
-    selectDebtorNameByKey,
-    useHistoryStore,
-} from "@/stores/use-history-store";
-import { getInitials } from "@/utils";
-import { DeptHistoryItem } from "@components/dept-history-item";
-import { createFileRoute } from "@tanstack/react-router";
-import { Avatar, AvatarFallback } from "@ui/avatar";
-import { Separator } from "@ui/separator";
-import { useShallow } from "zustand/shallow";
+import { useDebtorsStore } from '@/stores/use-debtors-store/use-debtors-store';
+import { selectDebtorById } from '@/stores/use-debtors-store/use-debtors-store.selectors';
+import { selectDebtorHistory, useHistoryStore } from '@/stores/use-history-store';
+import { getFullName, getInitials } from '@/utils';
+import { DebtHistoryItem } from '@components/debt-history-item';
+import { createFileRoute } from '@tanstack/react-router';
+import { Avatar, AvatarFallback } from '@ui/avatar';
+import { Separator } from '@ui/separator';
+import { useShallow } from 'zustand/shallow';
 
-export const Route = createFileRoute("/debtors/$debtorId")({
+export const Route = createFileRoute('/debtors/$debtorId')({
   component: DebtorInfo,
 });
 
@@ -20,16 +18,10 @@ function DebtorInfo() {
   const debtorHistory = useHistoryStore(
     useShallow((state) => selectDebtorHistory(state, debtorId)),
   );
-  const debtorName = useHistoryStore((state) =>
-    selectDebtorNameByKey(state, debtorId),
-  );
-
-  if (!debtorName) {
-    throw new Error("Debtor name cannot be null");
-  }
+  const debtor = useDebtorsStore(useShallow((state) => selectDebtorById(state, debtorId)));
 
   const totalDebt = debtorHistory.reduce((acc, item) => acc + item.amount, 0);
-  const initials = getInitials(debtorName);
+  const initials = getInitials(getFullName(debtor.firstName, debtor.lastName));
 
   return (
     <main className="flex flex-col gap-4">
@@ -37,7 +29,7 @@ function DebtorInfo() {
         <Avatar className="size-15">
           <AvatarFallback className="text-lg">{initials}</AvatarFallback>
         </Avatar>
-        <h2 className="text-xl">{debtorName}</h2>
+        <h2 className="text-xl">{getFullName(debtor.firstName, debtor.lastName)}</h2>
         <p className="border py-2 px-8 rounded-xl shadow">
           Общий долг: <b>{totalDebt} BYN</b>
         </p>
@@ -45,7 +37,7 @@ function DebtorInfo() {
       <Separator />
       <section className="flex flex-col gap-2">
         {debtorHistory.map((item) => (
-          <DeptHistoryItem key={item.id} item={item} />
+          <DebtHistoryItem key={item.id} itemId={item.id} />
         ))}
       </section>
     </main>

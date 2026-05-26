@@ -1,9 +1,9 @@
-import { useHistoryStore } from "@/stores/use-history-store";
-import { DeptHistoryItem } from "@components/dept-history-item";
-import { NoDataPlaceholder } from "@components/no-data-placeholder";
-import { createFileRoute } from "@tanstack/react-router";
+import { useHistoryStore } from '@/stores/use-history-store';
+import { DebtHistoryItem } from '@components/debt-history-item';
+import { NoDataPlaceholder } from '@components/no-data-placeholder';
+import { createFileRoute } from '@tanstack/react-router';
 
-export const Route = createFileRoute("/history")({
+export const Route = createFileRoute('/history')({
   component: History,
 });
 
@@ -14,9 +14,7 @@ function History() {
   return (
     <div className="flex flex-col gap-1">
       {hasItems ? (
-        historyItems.map((item) => (
-          <DeptHistoryItem key={item.id} item={item} />
-        ))
+        historyItems.map((item) => <DebtHistoryItem key={item.id} itemId={item.id} />)
       ) : (
         <NoDataPlaceholder
           title="Тут пока пусто"
