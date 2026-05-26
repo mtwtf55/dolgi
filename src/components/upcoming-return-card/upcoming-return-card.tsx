@@ -1,5 +1,8 @@
 import { DateFormatters } from "@/constants/date";
 import { useConfirmModal } from "@/hooks/useConfirmModal";
+import { useDebtorsStore } from "@/stores/use-debtors-store/use-debtors-store";
+import { selectDebtorById } from "@/stores/use-debtors-store/use-debtors-store.selectors";
+import { selectActorId, useHistoryStore } from "@/stores/use-history-store";
 import { getInitials } from "@/utils";
 import { ConfirmModal } from "@components/confirm-modal";
 import { Avatar, AvatarFallback } from "@ui/avatar";
@@ -21,21 +24,18 @@ import {
 import { format } from "date-fns";
 import { ru } from "date-fns/locale";
 import { BadgeCheck } from "lucide-react";
+import { useShallow } from "zustand/shallow";
 import type { UpcomingReturnCardProps } from "./upcoming-return-card.types";
 import { getStatusStyles } from "./upcoming-return-card.utils";
 
-export const UpcomingReturnCard = ({ item }: UpcomingReturnCardProps) => {
-  const {
-    to: { name },
-    returnDate,
-    amount,
-    id,
-  } = item;
-
+export const UpcomingReturnCard = ({ itemId }: UpcomingReturnCardProps) => {
   const { Modal: ConfirmReturnModal, confirm: confirmReturn } =
     useConfirmModal(ConfirmModal);
 
-  const initials = getInitials(name);
+  const actorId = useHistoryStore(state => selectActorId(state, itemId))
+  const actor = useDebtorsStore(useShallow(state => selectDebtorById(state, actorId)))
+
+  const initials = getInitials([actor.firstName, actor.lastName].join(' '));
   const formattedDate = format(returnDate, DateFormatters.DATE_MONTH_HUMAN, {
     locale: ru,
   });

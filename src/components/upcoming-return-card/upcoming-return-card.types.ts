@@ -1,6 +1,5 @@
-import type { DebtStoreHistoryItem } from "@/stores/use-debt-store";
+import type { HistoryItem } from "@/stores/use-history-store";
 
 export type UpcomingReturnCardProps = {
-  item: DebtStoreHistoryItem &
-    Required<Pick<DebtStoreHistoryItem, "returnDate">>;
+  itemId: HistoryItem['id']
 };

@@ -1,4 +1,4 @@
-import { useDebtStore } from "@/stores/use-debt-store";
+import { useHistoryStore } from "@/stores/use-history-store";
 import { DeptHistoryItem } from "@components/dept-history-item";
 import { NoDataPlaceholder } from "@components/no-data-placeholder";
 import { createFileRoute } from "@tanstack/react-router";
@@ -8,7 +8,7 @@ export const Route = createFileRoute("/history")({
 });
 
 function History() {
-  const historyItems = useDebtStore((state) => state.debtHistory);
+  const historyItems = useHistoryStore((state) => state.history);
   const hasItems = historyItems.length !== 0;
 
   return (

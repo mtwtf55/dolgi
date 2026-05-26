@@ -1,8 +1,8 @@
 import {
-  selectDebtorHistory,
-  selectDebtorNameByKey,
-  useDebtStore,
-} from "@/stores/use-debt-store";
+    selectDebtorHistory,
+    selectDebtorNameByKey,
+    useHistoryStore,
+} from "@/stores/use-history-store";
 import { getInitials } from "@/utils";
 import { DeptHistoryItem } from "@components/dept-history-item";
 import { createFileRoute } from "@tanstack/react-router";
@@ -17,10 +17,10 @@ export const Route = createFileRoute("/debtors/$debtorId")({
 function DebtorInfo() {
   const { debtorId } = Route.useParams();
 
-  const debtorHistory = useDebtStore(
+  const debtorHistory = useHistoryStore(
     useShallow((state) => selectDebtorHistory(state, debtorId)),
   );
-  const debtorName = useDebtStore((state) =>
+  const debtorName = useHistoryStore((state) =>
     selectDebtorNameByKey(state, debtorId),
   );
 

@@ -1,0 +1,1 @@
+export const DEBTORS_STORE_PERSIST_KEY = 'debtors-store'
