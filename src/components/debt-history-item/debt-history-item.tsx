@@ -1,4 +1,5 @@
 import { DateFormatters } from '@/constants/date';
+import { cn } from '@/lib/utils';
 import { useDebtorsStore } from '@/stores/use-debtors-store/use-debtors-store';
 import { selectDebtorById } from '@/stores/use-debtors-store/use-debtors-store.selectors';
 import { selectItemById, useHistoryStore } from '@/stores/use-history-store';
@@ -24,9 +25,10 @@ export const DebtHistoryItem = ({ itemId }: DebtHistoryItemProps) => {
   const returnDateFormatted = returnDate ? formatDate(returnDate) : null;
   const initials = getInitials(getFullName(actor.firstName, actor.lastName));
   const createdAtFormatted = format(new Date(historyItem.createdAt), DateFormatters.DATE_MONTH);
+  const isReturn = historyItem.amount < 0;
 
   return (
-    <Item variant={'outline'} className="relative">
+    <Item variant={'outline'} className="relative overflow-hidden">
       <ItemMedia>
         <Avatar size="lg">
           <AvatarFallback>{initials}</AvatarFallback>
@@ -34,12 +36,12 @@ export const DebtHistoryItem = ({ itemId }: DebtHistoryItemProps) => {
       </ItemMedia>
       <ItemContent>
         <ItemTitle>
-          <b>{getFullName(actor.firstName, actor.lastName)}</b>{' '}
-          {historyItem.amount < 0 ? '<-' : '->'} {Math.abs(historyItem.amount)} BYN
+          <b>{getFullName(actor.firstName, actor.lastName)}</b> {isReturn ? '<-' : '->'}{' '}
+          {Math.abs(historyItem.amount)} BYN
         </ItemTitle>
         <ItemDescription>
           <div>
-            {historyItem.amount < 0 ? 'Вернул' : 'Занял'} <b>{debtDateFormatted}</b>.
+            {isReturn ? 'Вернул' : 'Занял'} <b>{debtDateFormatted}</b>.
           </div>
           {returnDateFormatted && (
             <div>
@@ -49,6 +51,12 @@ export const DebtHistoryItem = ({ itemId }: DebtHistoryItemProps) => {
         </ItemDescription>
       </ItemContent>
       <small className="absolute top-1.5 right-2 opacity-40">{createdAtFormatted}</small>
+      <div
+        className={cn(
+          'absolute right-2 bottom-2 size-3 rounded-full',
+          isReturn ? 'bg-emerald-500' : 'bg-blue-500',
+        )}
+      />
     </Item>
   );
 };
