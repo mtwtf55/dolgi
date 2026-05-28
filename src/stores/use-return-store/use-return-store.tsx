@@ -5,6 +5,7 @@ import { RETURN_STORE_PERSIST_KEY } from './use-return-store.constants';
 import type {
   CreateReturnItemPayload,
   ReturnItem,
+  UpdateReturnItemPayload,
   UseReturnStoreState,
 } from './use-return-store.types';
 
@@ -29,5 +30,15 @@ export const createReturnItem = (payload: CreateReturnItemPayload) => {
 export const deleteReturnItem = (historyItemId: HistoryItem['id']) => {
   useReturnStore.setState((state) => ({
     items: state.items.filter((item) => item.historyItemId !== historyItemId),
+  }));
+};
+
+export const updateReturnItem = (payload: UpdateReturnItemPayload) => {
+  const { historyItemId, returnDate } = payload;
+
+  useReturnStore.setState((state) => ({
+    items: state.items.map((item) =>
+      item.historyItemId === historyItemId ? { historyItemId, returnDate } : item,
+    ),
   }));
 };

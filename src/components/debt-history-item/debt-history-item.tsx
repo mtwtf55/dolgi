@@ -18,7 +18,7 @@ export const DebtHistoryItem = ({ itemId }: DebtHistoryItemProps) => {
     useShallow((state) => selectDebtorById(state, historyItem.actorId)),
   );
 
-  const returnDate = useReturnStore((state) => selectReturnDate(state, historyItem.id));
+  const returnDate = useReturnStore(useShallow((state) => selectReturnDate(state, historyItem.id)));
 
   const debtDateFormatted = formatDate(historyItem.date);
   const returnDateFormatted = returnDate ? formatDate(returnDate) : null;

@@ -4,5 +4,5 @@ import type { UseReturnStoreState } from './use-return-store.types';
 export const selectReturnDate = (state: UseReturnStoreState, historyItemId: HistoryItem['id']) => {
   const findResult = state.items.find((item) => item.historyItemId === historyItemId);
 
-  return findResult ? findResult.returnDate : null;
+  return findResult ? new Date(findResult.returnDate) : null;
 };
