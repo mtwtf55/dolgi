@@ -18,7 +18,7 @@ import {
 import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '@ui/item';
 import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
-import { BadgeCheck, Calendar } from 'lucide-react';
+import { BadgeCheck, Calendar, CalendarX } from 'lucide-react';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { useShallow } from 'zustand/shallow';
@@ -29,6 +29,8 @@ export const UpcomingReturnCard = ({ itemId, returnDate }: UpcomingReturnCardPro
   const [isPostponeDialogShown, setIsPostponeDialogShown] = useState(false);
 
   const { Modal: ConfirmReturnModal, confirm: confirmReturn } = useConfirmModal(ConfirmModal);
+  const { Modal: ConfirmCancelReturnDateModal, confirm: confirmCancelReturn } =
+    useConfirmModal(ConfirmModal);
 
   const historyItem = useHistoryStore(useShallow((state) => selectItemById(state, itemId)));
   const actor = useDebtorsStore(
@@ -51,6 +53,15 @@ export const UpcomingReturnCard = ({ itemId, returnDate }: UpcomingReturnCardPro
   };
 
   const handlePostponeReturn = () => setIsPostponeDialogShown(true);
+
+  const handleClearReturn = async () => {
+    const confirmRetult = await confirmCancelReturn();
+
+    if (!confirmRetult) return;
+
+    deleteReturnItem(itemId);
+    toast.success('Дата возврата убрана');
+  };
 
   return (
     <>
@@ -77,9 +88,13 @@ export const UpcomingReturnCard = ({ itemId, returnDate }: UpcomingReturnCardPro
               <BadgeCheck />
               Возвращено
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={handlePostponeReturn}>
+            <DropdownMenuItem className="p-2" onClick={handlePostponeReturn}>
               <Calendar />
               Перенести срок возврата
+            </DropdownMenuItem>
+            <DropdownMenuItem className="p-2 text-gray-500" onClick={handleClearReturn}>
+              <CalendarX />
+              Убрать срок возврата
             </DropdownMenuItem>
           </DropdownMenuGroup>
         </DropdownMenuContent>
@@ -89,6 +104,10 @@ export const UpcomingReturnCard = ({ itemId, returnDate }: UpcomingReturnCardPro
         open={isPostponeDialogShown}
         onOpenChange={setIsPostponeDialogShown}
         itemId={itemId}
+      />
+      <ConfirmCancelReturnDateModal
+        title="Вы уверены, что ходите убрать дату возврата?"
+        description="Если убрать дату возврата, то долг перестанет отображаться в секции ближайших возвратов. Сам долг не исчезнет"
       />
     </>
   );

@@ -7,32 +7,19 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@ui/alert-dialog";
-import type { ConfirmModalProps } from "./confirm-modal.types";
-import {
-  DEFAULT_ACTION_TEXT,
-  DEFAULT_CANCEL_TEXT,
-} from "./confirm-modal.constants";
+} from '@ui/alert-dialog';
+import { DEFAULT_ACTION_TEXT, DEFAULT_CANCEL_TEXT } from './confirm-modal.constants';
+import type { ConfirmModalProps } from './confirm-modal.types';
 
 export const ConfirmModal = (props: ConfirmModalProps) => {
-  const {
-    cancelText,
-    actionText,
-    onCancel,
-    onAction,
-    open,
-    description,
-    title,
-  } = props;
+  const { cancelText, actionText, onCancel, onAction, open, description, title } = props;
 
   return (
     <AlertDialog open={open}>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{title}</AlertDialogTitle>
-          {description && (
-            <AlertDialogDescription>{description}</AlertDialogDescription>
-          )}
+          {description && <AlertDialogDescription>{description}</AlertDialogDescription>}
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel onClick={onCancel}>
