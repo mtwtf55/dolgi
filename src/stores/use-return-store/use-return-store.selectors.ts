@@ -1,3 +1,4 @@
+import type { Debtor } from '../use-debtors-store/use-debtors-store.types';
 import type { HistoryItem } from '../use-history-store';
 import type { UseReturnStoreState } from './use-return-store.types';
 
