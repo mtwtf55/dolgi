@@ -35,12 +35,13 @@ function Debtors() {
         <Separator />
         <div className="pt-2 flex flex-col gap-2">
           {summary.length !== 0 ? (
-            summary.map(({ firstName, id, total, lastName }) => (
+            summary.map(({ firstName, id, total, lastName, overdueCount }) => (
               <DebtorCard
                 key={id}
                 amount={total}
                 name={getFullName(firstName, lastName)}
                 onClick={handleDebtorSelected(id)}
+                hasOverdues={overdueCount > 0}
               />
             ))
           ) : (

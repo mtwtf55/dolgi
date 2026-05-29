@@ -5,7 +5,7 @@ import { getFullName, getInitials } from '@/utils';
 import { DebtHistoryItem } from '@components/debt-history-item';
 import { ReturnDebtDialog } from '@components/return-debt-dialog';
 import { createFileRoute } from '@tanstack/react-router';
-import { Avatar, AvatarFallback } from '@ui/avatar';
+import { Avatar, AvatarFallback, AvatarOverdue } from '@ui/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,10 +13,12 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@ui/dropdown-menu';
+import { Popover, PopoverContent, PopoverTrigger } from '@ui/popover';
 import { Separator } from '@ui/separator';
 import { BadgeCheck } from 'lucide-react';
 import { useState } from 'react';
 import { useShallow } from 'zustand/shallow';
+import { useOverduesCount } from './-hooks/useOverduesCount';
 
 export const Route = createFileRoute('/debtors/$debtorId')({
   component: DebtorInfo,
@@ -30,6 +32,8 @@ function DebtorInfo() {
     useShallow((state) => selectDebtorHistory(state, debtorId)),
   );
   const debtor = useDebtorsStore(useShallow((state) => selectDebtorById(state, debtorId)));
+  const overduesCount = useOverduesCount(debtorId);
+  const hasOverdues = overduesCount > 0;
 
   const totalDebt = debtorHistory.reduce((acc, item) => acc + item.amount, 0);
   const initials = getInitials(getFullName(debtor.firstName, debtor.lastName));
@@ -40,10 +44,20 @@ function DebtorInfo() {
     <>
       <DropdownMenu>
         <main className="flex flex-col gap-4">
-          <section className="flex flex-col gap-2 items-center">
-            <Avatar className="size-15">
-              <AvatarFallback className="text-lg">{initials}</AvatarFallback>
-            </Avatar>
+          <section className="flex flex-col gap-2 items-center relative">
+            <Popover>
+              <PopoverTrigger disabled={!hasOverdues}>
+                <Avatar className="size-15 relative">
+                  <AvatarFallback className="text-lg">{initials}</AvatarFallback>
+                  {hasOverdues && <AvatarOverdue>{overduesCount}</AvatarOverdue>}
+                </Avatar>
+              </PopoverTrigger>
+              <PopoverContent side="top" avoidCollisions sideOffset={-30}>
+                <p>
+                  Количество просрочек по долгам: <b>{overduesCount}</b>
+                </p>
+              </PopoverContent>
+            </Popover>
             <h2 className="text-xl">{getFullName(debtor.firstName, debtor.lastName)}</h2>
             <DropdownMenuTrigger asChild>
               <p className="border py-2 px-8 rounded-xl shadow">
