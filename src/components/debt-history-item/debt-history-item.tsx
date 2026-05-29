@@ -5,6 +5,7 @@ import { selectDebtorById } from '@/stores/use-debtors-store/use-debtors-store.s
 import { selectItemById, useHistoryStore } from '@/stores/use-history-store';
 import { useReturnStore } from '@/stores/use-return-store/use-return-store';
 import { selectReturnDate } from '@/stores/use-return-store/use-return-store.selectors';
+import { useSettingsStore } from '@/stores/use-settings-store';
 import { getFullName, getInitials } from '@/utils';
 import { Avatar, AvatarFallback } from '@ui/avatar';
 import { Item, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '@ui/item';
@@ -20,6 +21,7 @@ export const DebtHistoryItem = ({ itemId }: DebtHistoryItemProps) => {
   );
 
   const returnDate = useReturnStore(useShallow((state) => selectReturnDate(state, historyItem.id)));
+  const isMarkersShown = useSettingsStore((state) => state.showHistoryMarkers);
 
   const debtDateFormatted = formatDate(historyItem.date);
   const returnDateFormatted = returnDate ? formatDate(returnDate) : null;
@@ -51,12 +53,14 @@ export const DebtHistoryItem = ({ itemId }: DebtHistoryItemProps) => {
         </ItemDescription>
       </ItemContent>
       <small className="absolute top-1.5 right-2 opacity-40">{createdAtFormatted}</small>
-      <div
-        className={cn(
-          'absolute right-2 bottom-2 size-3 rounded-full',
-          isReturn ? 'bg-emerald-500' : 'bg-blue-500',
-        )}
-      />
+      {isMarkersShown && (
+        <div
+          className={cn(
+            'absolute right-2 bottom-2 size-3 rounded-full',
+            isReturn ? 'bg-emerald-500' : 'bg-blue-500',
+          )}
+        />
+      )}
     </Item>
   );
 };

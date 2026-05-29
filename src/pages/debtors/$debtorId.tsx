@@ -1,6 +1,7 @@
 import { useDebtorsStore } from '@/stores/use-debtors-store/use-debtors-store';
 import { selectDebtorById } from '@/stores/use-debtors-store/use-debtors-store.selectors';
 import { selectDebtorHistory, useHistoryStore } from '@/stores/use-history-store';
+import { useSettingsStore } from '@/stores/use-settings-store';
 import { getFullName, getInitials } from '@/utils';
 import { DebtHistoryItem } from '@components/debt-history-item';
 import { ReturnDebtDialog } from '@components/return-debt-dialog';
@@ -27,6 +28,7 @@ export const Route = createFileRoute('/debtors/$debtorId')({
 function DebtorInfo() {
   const { debtorId } = Route.useParams();
   const [isReturnDebtDialogShown, setIsReturnDebtDialogShown] = useState(false);
+  const isOverdueMarkerShown = useSettingsStore((state) => state.showOverdueDebtors);
 
   const debtorHistory = useHistoryStore(
     useShallow((state) => selectDebtorHistory(state, debtorId)),
@@ -46,10 +48,12 @@ function DebtorInfo() {
         <main className="flex flex-col gap-4">
           <section className="flex flex-col gap-2 items-center relative">
             <Popover>
-              <PopoverTrigger disabled={!hasOverdues}>
+              <PopoverTrigger disabled={!hasOverdues || !isOverdueMarkerShown}>
                 <Avatar className="size-15 relative">
                   <AvatarFallback className="text-lg">{initials}</AvatarFallback>
-                  {hasOverdues && <AvatarOverdue>{overduesCount}</AvatarOverdue>}
+                  {isOverdueMarkerShown && hasOverdues && (
+                    <AvatarOverdue>{overduesCount}</AvatarOverdue>
+                  )}
                 </Avatar>
               </PopoverTrigger>
               <PopoverContent side="top" avoidCollisions sideOffset={-30}>

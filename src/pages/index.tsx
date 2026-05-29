@@ -34,17 +34,15 @@ function Home() {
           <h3 className="font-medium">Ближайшие возвраты</h3>
           <Separator />
           {upcomingReturns.length !== 0 ? (
-            <>
-              <div className="pt-3 flex flex-col gap-1">
-                {upcomingReturns.map(({ historyItemId, returnDate }) => (
-                  <UpcomingReturnCard
-                    key={historyItemId}
-                    itemId={historyItemId}
-                    returnDate={returnDate}
-                  />
-                ))}
-              </div>
-            </>
+            <div className="pt-3 flex flex-col gap-1">
+              {upcomingReturns.map(({ historyItemId, returnDate }) => (
+                <UpcomingReturnCard
+                  key={historyItemId}
+                  itemId={historyItemId}
+                  returnDate={returnDate}
+                />
+              ))}
+            </div>
           ) : (
             <NoDataPlaceholder
               noIcon
