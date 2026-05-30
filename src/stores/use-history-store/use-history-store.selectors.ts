@@ -1,3 +1,5 @@
+import { endOfDay, isAfter, isBefore, startOfDay } from 'date-fns';
+import type { DateRange } from 'react-day-picker';
 import type { HistoryItem, HistoryStoreState } from './use-history-store.types';
 
 export const selectDebtorsSummary = (state: HistoryStoreState) => {
@@ -41,4 +43,14 @@ export const selectHistoryItemAmout = (state: HistoryStoreState, id: HistoryItem
   }
 
   return findResult.amount;
+};
+
+export const selectHistoryByRange = (state: HistoryStoreState, range: DateRange) => {
+  if (range.from && range.to) {
+    const { from, to } = range;
+    return state.history.filter(
+      ({ createdAt }) => isBefore(createdAt, endOfDay(to)) && isAfter(createdAt, startOfDay(from)),
+    );
+  }
+  return state.history;
 };
