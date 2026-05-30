@@ -6,12 +6,17 @@ import { useHistoryStore } from '../use-history-store';
 import { HISTORY_STORE_PERSIST_KEY } from '../use-history-store/use-history-store.constants';
 import { useReturnStore } from '../use-return-store/use-return-store';
 import { RETURN_STORE_PERSIST_KEY } from '../use-return-store/use-return-store.constants';
-import { SETTINGS_STORE_PERSIST_KEY } from './use-settings-store.constants';
+import { SETTINGS_STORE_PERSIST_KEY, USER_PASSWORD_HASH_KEY } from './use-settings-store.constants';
 import { type UseSettingsStoreState } from './use-settings-store.types';
 
 export const useSettingsStore = create<UseSettingsStoreState>()(
   persist(
-    () => ({ showHistoryMarkers: false, showOverdueDebtors: false }) as UseSettingsStoreState,
+    () =>
+      ({
+        showHistoryMarkers: false,
+        showOverdueDebtors: false,
+        setPassword: false,
+      }) as UseSettingsStoreState,
     {
       name: SETTINGS_STORE_PERSIST_KEY,
     },
@@ -26,6 +31,10 @@ export const showOverdueDebtors = (flag: boolean) => {
   useSettingsStore.setState((state) => ({ ...state, showOverdueDebtors: flag }));
 };
 
+export const setPassword = (flag: boolean) => {
+  useSettingsStore.setState((state) => ({ ...state, setPassword: flag }));
+};
+
 export const deleteAllData = () => {
   localStorage.removeItem(SETTINGS_STORE_PERSIST_KEY);
   localStorage.removeItem(HISTORY_STORE_PERSIST_KEY);
@@ -36,4 +45,12 @@ export const deleteAllData = () => {
   useHistoryStore.setState(useHistoryStore.getInitialState());
   useDebtorsStore.setState(useDebtorsStore.getInitialState());
   useReturnStore.setState(useReturnStore.getInitialState());
+};
+
+export const savePasswordHash = (hash: string) => {
+  localStorage.setItem(USER_PASSWORD_HASH_KEY, hash);
+};
+
+export const removePasswordHash = () => {
+  localStorage.removeItem(USER_PASSWORD_HASH_KEY);
 };

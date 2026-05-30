@@ -1,17 +1,20 @@
 import { useConfirmModal } from '@/hooks/useConfirmModal';
 import {
   deleteAllData,
+  removePasswordHash,
+  setPassword,
   showHistoryMarkers,
   showOverdueDebtors,
   useSettingsStore,
 } from '@/stores/use-settings-store';
 import { ConfirmModal } from '@components/confirm-modal';
+import { SetPasswordDialog } from '@components/set-password-dialog';
 import { createFileRoute } from '@tanstack/react-router';
 import { Button } from '@ui/button';
 import { Field, FieldContent, FieldDescription, FieldLabel } from '@ui/field';
 import { Separator } from '@ui/separator';
 import { Switch } from '@ui/switch';
-import { useId, type PropsWithChildren } from 'react';
+import { useId, useState, type PropsWithChildren } from 'react';
 import { toast } from 'sonner';
 import { useShallow } from 'zustand/shallow';
 
@@ -22,9 +25,13 @@ export const Route = createFileRoute('/settings')({
 function Settings() {
   const showHistoryMarkersSwitchId = useId();
   const showOverdueDebtorsSwitchId = useId();
+  const setPasswordSwitchId = useId();
   const settings = useSettingsStore(useShallow((state) => state));
   const { Modal: DeleteAllDataConfirmModal, confirm: confirmDeleteAllData } =
     useConfirmModal(ConfirmModal);
+  const { Modal: CancelPasswordConfirmModal, confirm: confirmCancelPassword } =
+    useConfirmModal(ConfirmModal);
+  const [isPasswordDialogOpened, setIsPasswordDialogOpened] = useState(false);
 
   const handleShowHistoryMarkersSwitchChanged = (checked: boolean) => {
     showHistoryMarkers(checked);
@@ -41,6 +48,18 @@ function Settings() {
 
     deleteAllData();
     toast.success('Все данные удалены');
+  };
+
+  const handleSetPasswordSwitchChanged = async (checked: boolean) => {
+    if (checked) setIsPasswordDialogOpened(true);
+    if (!checked) {
+      const confirmResult = await confirmCancelPassword();
+      if (!confirmResult) return;
+
+      setPassword(false);
+      removePasswordHash();
+      toast.success('Вход по паролю отключен');
+    }
   };
 
   return (
@@ -75,6 +94,19 @@ function Settings() {
             />
           </Field>
         </Section>
+        <Section title="Безопасность">
+          <Field orientation="horizontal" className="max-w-sm">
+            <FieldContent>
+              <FieldLabel htmlFor={setPasswordSwitchId}>Установить пароль</FieldLabel>
+              <FieldDescription>Установить пароль для входа в приложение</FieldDescription>
+            </FieldContent>
+            <Switch
+              id={setPasswordSwitchId}
+              onCheckedChange={handleSetPasswordSwitchChanged}
+              checked={settings.setPassword}
+            />
+          </Field>
+        </Section>
         <Section title="Данные">
           <Field orientation="horizontal" className="max-w-sm" data-invalid>
             <FieldContent>
@@ -96,6 +128,8 @@ function Settings() {
         actionText="Удалить"
         cancelText="Отменить"
       />
+      <CancelPasswordConfirmModal title="Вы уверены, что хотите отключить вход по паролю?" />
+      <SetPasswordDialog open={isPasswordDialogOpened} onOpenChange={setIsPasswordDialogOpened} />
     </>
   );
 }
