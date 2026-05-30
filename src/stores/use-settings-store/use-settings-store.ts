@@ -54,3 +54,11 @@ export const savePasswordHash = (hash: string) => {
 export const removePasswordHash = () => {
   localStorage.removeItem(USER_PASSWORD_HASH_KEY);
 };
+
+export const isPasswordCorrect = (hash: string) => {
+  const hashFromStorage = localStorage.getItem(USER_PASSWORD_HASH_KEY);
+
+  if (!hashFromStorage) return true;
+
+  return hash === hashFromStorage;
+};
