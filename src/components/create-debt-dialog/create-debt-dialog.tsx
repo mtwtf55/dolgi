@@ -24,6 +24,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@ui/select';
+import { endOfDay } from 'date-fns';
 import { Controller, useForm, type SubmitHandler } from 'react-hook-form';
 import { toast } from 'sonner';
 import { useShallow } from 'zustand/shallow';
@@ -52,7 +53,7 @@ export const CreateDebtDialog = ({ onOpenChange, open }: CreateDebtDialogProps) 
     const historyItemId = createHistoryItem({ actorId: to, amount, date: debtDate });
 
     if (returnDate) {
-      createReturnItem({ historyItemId, returnDate });
+      createReturnItem({ historyItemId, returnDate: endOfDay(returnDate) });
     }
 
     toast.success('Запись была успешно добавлена');

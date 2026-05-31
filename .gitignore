@@ -25,3 +25,4 @@ dist-ssr
 .vscode
 .fttemplates
 .tanstack
+dev-dist
