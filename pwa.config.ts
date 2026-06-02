@@ -46,5 +46,7 @@ export const pwaConfig: Partial<VitePWAOptions> = {
     orientation: 'portrait',
     scope: '/',
     lang: 'ru',
+    theme_color: '#FFFFFF',
+    background_color: '#FFFFFF',
   },
 };
