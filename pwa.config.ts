@@ -11,7 +11,7 @@ export const pwaConfig: Partial<VitePWAOptions> = {
     description:
       'Удобный трекер для тех, кто часто дает в долг. Записывайте, кому, сколько и до какого числа вы одолжили деньги. Контролируйте свои финансы без лишних таблиц.',
     start_url: '/',
-    display: 'minimal-ui',
+    display: 'standalone',
     icons: [
       {
         src: '/icons/icon-192x192.png',
