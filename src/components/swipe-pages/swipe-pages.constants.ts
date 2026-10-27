@@ -6,3 +6,5 @@ export const SWIPE_SPRING = { type: 'spring', stiffness: 400, damping: 40 } as c
 
 export const IGNORE_SWIPE_SELECTOR =
   'input, textarea, select, [role="dialog"], [role="listbox"], [data-slot$="overlay"], [data-slot="calendar"]';
+
+export const EMPTY_SWIPE_HANDOFF = { from: 0, leavingSide: null } as const;
