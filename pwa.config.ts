@@ -1,6 +1,7 @@
 import { type VitePWAOptions } from 'vite-plugin-pwa';
 
 export const pwaConfig: Partial<VitePWAOptions> = {
+  registerType: 'autoUpdate',
   devOptions: {
     enabled: true,
   },
