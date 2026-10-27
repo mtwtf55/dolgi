@@ -7,12 +7,13 @@ import { HISTORY_STORE_PERSIST_KEY } from '../use-history-store/use-history-stor
 import { useReturnStore } from '../use-return-store/use-return-store';
 import { RETURN_STORE_PERSIST_KEY } from '../use-return-store/use-return-store.constants';
 import { SETTINGS_STORE_PERSIST_KEY, USER_PASSWORD_HASH_KEY } from './use-settings-store.constants';
-import { type UseSettingsStoreState } from './use-settings-store.types';
+import { type Theme, type UseSettingsStoreState } from './use-settings-store.types';
 
 export const useSettingsStore = create<UseSettingsStoreState>()(
   persist(
     () =>
       ({
+        theme: 'system',
         showHistoryMarkers: false,
         showOverdueDebtors: false,
         setPassword: false,
@@ -22,6 +23,10 @@ export const useSettingsStore = create<UseSettingsStoreState>()(
     },
   ),
 );
+
+export const setTheme = (theme: Theme) => {
+  useSettingsStore.setState((state) => ({ ...state, theme }));
+};
 
 export const showHistoryMarkers = (flag: boolean) => {
   useSettingsStore.setState((state) => ({ ...state, showHistoryMarkers: flag }));

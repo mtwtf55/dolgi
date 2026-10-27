@@ -71,7 +71,7 @@ function DebtorInfo() {
             <DropdownMenuContent className="p-1" avoidCollisions side="bottom" align="end">
               <DropdownMenuGroup>
                 <DropdownMenuItem
-                  className="p-2 text-green-700 justify-center"
+                  className="p-2 text-green-700 dark:text-green-400 justify-center"
                   onClick={handleDecreaseDebt}
                   disabled={totalDebt <= 0}
                 >

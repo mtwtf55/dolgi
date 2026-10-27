@@ -4,6 +4,21 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#ffffff" />
+    <script>
+      (function () {
+        try {
+          var stored = JSON.parse(localStorage.getItem('settings-store'));
+          var theme = (stored && stored.state && stored.state.theme) || 'system';
+          var isDark =
+            theme === 'dark' ||
+            (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          document.documentElement.classList.toggle('dark', isDark);
+          document.documentElement.style.colorScheme = isDark ? 'dark' : 'light';
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', isDark ? '#141414' : '#ffffff');
+        } catch (e) {}
+      })();
+    </script>
     <title>Долги</title>
   </head>
   <body>

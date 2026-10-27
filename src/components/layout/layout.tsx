@@ -1,3 +1,4 @@
+import { useApplyTheme } from '@/hooks/useApplyTheme';
 import { AccessControl } from '@components/access-control';
 import { Navigation } from '@components/navigation';
 import { SwipePages } from '@components/swipe-pages';
@@ -5,6 +6,8 @@ import { Toaster } from '@ui/sonner';
 import type { LayoutProps } from './layout.types';
 
 export function Layout({ children }: LayoutProps) {
+  useApplyTheme();
+
   return (
     <div className="min-h-dvh flex flex-col relative overflow-x-clip">
       <Navigation />

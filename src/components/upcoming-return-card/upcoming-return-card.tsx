@@ -84,7 +84,7 @@ export const UpcomingReturnCard = ({ itemId, returnDate }: UpcomingReturnCardPro
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-50 p-1" avoidCollisions side="bottom" align="end">
           <DropdownMenuGroup>
-            <DropdownMenuItem className="p-2 text-green-700 " onClick={handleReturnDebt}>
+            <DropdownMenuItem className="p-2 text-green-700 dark:text-green-400" onClick={handleReturnDebt}>
               <BadgeCheck />
               Возвращено
             </DropdownMenuItem>
@@ -92,7 +92,7 @@ export const UpcomingReturnCard = ({ itemId, returnDate }: UpcomingReturnCardPro
               <Calendar />
               Перенести срок возврата
             </DropdownMenuItem>
-            <DropdownMenuItem className="p-2 text-gray-500" onClick={handleClearReturn}>
+            <DropdownMenuItem className="p-2 text-muted-foreground" onClick={handleClearReturn}>
               <CalendarX />
               Убрать срок возврата
             </DropdownMenuItem>

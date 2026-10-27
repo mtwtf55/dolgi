@@ -3,15 +3,18 @@ import {
   deleteAllData,
   removePasswordHash,
   setPassword,
+  setTheme,
   showHistoryMarkers,
   showOverdueDebtors,
   useSettingsStore,
+  type Theme,
 } from '@/stores/use-settings-store';
 import { ConfirmModal } from '@components/confirm-modal';
 import { SetPasswordDialog } from '@components/set-password-dialog';
 import { createFileRoute } from '@tanstack/react-router';
 import { Button } from '@ui/button';
 import { Field, FieldContent, FieldDescription, FieldLabel } from '@ui/field';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/select';
 import { Separator } from '@ui/separator';
 import { Switch } from '@ui/switch';
 import { useId, useState, type PropsWithChildren } from 'react';
@@ -23,6 +26,7 @@ export const Route = createFileRoute('/settings')({
 });
 
 function Settings() {
+  const themeSelectId = useId();
   const showHistoryMarkersSwitchId = useId();
   const showOverdueDebtorsSwitchId = useId();
   const setPasswordSwitchId = useId();
@@ -32,6 +36,10 @@ function Settings() {
   const { Modal: CancelPasswordConfirmModal, confirm: confirmCancelPassword } =
     useConfirmModal(ConfirmModal);
   const [isPasswordDialogOpened, setIsPasswordDialogOpened] = useState(false);
+
+  const handleThemeChanged = (value: string) => {
+    setTheme(value as Theme);
+  };
 
   const handleShowHistoryMarkersSwitchChanged = (checked: boolean) => {
     showHistoryMarkers(checked);
@@ -66,6 +74,22 @@ function Settings() {
     <>
       <div className="flex flex-col gap-6">
         <Section title="Внешний вид">
+          <Field orientation="horizontal" className="max-w-sm">
+            <FieldContent>
+              <FieldLabel htmlFor={themeSelectId}>Тема</FieldLabel>
+              <FieldDescription>Тема оформления</FieldDescription>
+            </FieldContent>
+            <Select value={settings.theme} onValueChange={handleThemeChanged}>
+              <SelectTrigger id={themeSelectId} className="self-center">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="system">Системная</SelectItem>
+                <SelectItem value="light">Светлая</SelectItem>
+                <SelectItem value="dark">Тёмная</SelectItem>
+              </SelectContent>
+            </Select>
+          </Field>
           <Field orientation="horizontal" className="max-w-sm">
             <FieldContent>
               <FieldLabel htmlFor={showHistoryMarkersSwitchId}>Маркеры истории</FieldLabel>
