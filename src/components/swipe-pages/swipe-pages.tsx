@@ -1,3 +1,4 @@
+import { setPendingTab } from '@/stores/use-swipe-store';
 import { navItems } from '@components/navigation';
 import { useLocation, useNavigate, useRouter } from '@tanstack/react-router';
 import { animate, motion, useDragControls, useMotionValue, useReducedMotion } from 'motion/react';
@@ -42,6 +43,10 @@ const SwipePage = ({ children, tabIndex }: SwipePagesProps & { tabIndex: number 
     controls.start(event);
   };
 
+  const handleDragStart = () => {
+    if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
+  };
+
   const handleDrag = (_: unknown, { offset }: { offset: { x: number } }) => {
     const side: Side | null = offset.x < 0 ? 'next' : offset.x > 0 ? 'prev' : null;
     setPeekSide((current) => (current === side ? current : side));
@@ -63,9 +68,9 @@ const SwipePage = ({ children, tabIndex }: SwipePagesProps & { tabIndex: number 
       return;
     }
 
-    if (!reduceMotion) await animate(x, direction * width, SWIPE_SPRING);
+    setPendingTab(target.to);
 
-    if (document.activeElement instanceof HTMLElement) document.activeElement.blur();
+    if (!reduceMotion) await animate(x, direction * width, SWIPE_SPRING);
 
     navigate({ to: target.to });
   };
@@ -84,6 +89,7 @@ const SwipePage = ({ children, tabIndex }: SwipePagesProps & { tabIndex: number 
         right: neighbors.prev ? ELASTIC_WITH_NEIGHBOR : ELASTIC_WITHOUT_NEIGHBOR,
       }}
       onPointerDown={handlePointerDown}
+      onDragStart={handleDragStart}
       onDrag={handleDrag}
       onDragEnd={handleDragEnd}
     >
