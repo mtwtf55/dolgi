@@ -11,7 +11,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 Package manager is **pnpm**.
 
 - `pnpm dev`: Vite dev server. The service worker is also active in dev (`devOptions.enabled` in `pwa.config.ts`, output goes to `dev-dist/`).
-- `pnpm build`: `tsc -b` type-check, then `vite build`.
+- `pnpm build`: `vite build`, then `tsc -b` type-check. The order matters: `vite build` generates the git-ignored `src/routeTree.gen.ts`, which `tsc` needs.
 - `pnpm lint`: ESLint.
 - `pnpm preview`: serves the production build.
 
