@@ -1,3 +1,4 @@
+import { roundMoney } from '@/utils';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { HISTORY_STORE_PERSIST_KEY } from './use-history-store.constants';
@@ -21,6 +22,7 @@ export const createHistoryItem = (payload: CreateHistoryItemPayload) => {
       history: [
         {
           ...payload,
+          amount: roundMoney(payload.amount),
           id: historyItemId,
           createdAt: new Date(),
         },

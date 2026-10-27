@@ -1,10 +1,11 @@
+import { roundMoney } from '@/utils';
 import { endOfDay, isAfter, isBefore, startOfDay } from 'date-fns';
 import type { DateRange } from 'react-day-picker';
 import type { HistoryItem, HistoryStoreState } from './use-history-store.types';
 
 export const selectDebtorsSummary = (state: HistoryStoreState) => {
   const map = state.history.reduce((acc, { actorId, amount }) => {
-    acc.set(actorId, (acc.get(actorId) || 0) + amount);
+    acc.set(actorId, roundMoney((acc.get(actorId) || 0) + amount));
     return acc;
   }, new Map<string, number>());
 

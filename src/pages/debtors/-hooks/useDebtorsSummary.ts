@@ -1,6 +1,7 @@
 import { useDebtorsStore } from '@/stores/use-debtors-store/use-debtors-store';
 import { useHistoryStore } from '@/stores/use-history-store';
 import { useReturnStore } from '@/stores/use-return-store/use-return-store';
+import { roundMoney } from '@/utils';
 import { isBefore } from 'date-fns';
 import { useMemo } from 'react';
 import { useShallow } from 'zustand/shallow';
@@ -12,7 +13,7 @@ export const useDebtorsSummary = () => {
 
   const historySummary = useMemo(() => {
     const map = history.reduce((acc, { actorId, amount }) => {
-      acc.set(actorId, (acc.get(actorId) || 0) + amount);
+      acc.set(actorId, roundMoney((acc.get(actorId) || 0) + amount));
       return acc;
     }, new Map<string, number>());
 

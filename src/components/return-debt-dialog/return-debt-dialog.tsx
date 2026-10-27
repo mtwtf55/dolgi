@@ -6,7 +6,7 @@ import {
   useHistoryStore,
 } from '@/stores/use-history-store';
 import { useReturnStore } from '@/stores/use-return-store/use-return-store';
-import { getFullName } from '@/utils';
+import { getFullName, roundMoney } from '@/utils';
 import { standardSchemaResolver } from '@hookform/resolvers/standard-schema';
 import { Button } from '@ui/button';
 import {
@@ -39,7 +39,7 @@ export const ReturnDebtDialog = ({ actorId, onOpenChange, open }: ReturnDebtDial
   const returnsIds = useReturnStore(
     useShallow((state) => state.items.map(({ historyItemId }) => historyItemId)),
   );
-  const totalDebt = debtorHistory.reduce((acc, item) => acc + item.amount, 0);
+  const totalDebt = roundMoney(debtorHistory.reduce((acc, item) => acc + item.amount, 0));
 
   const isHasReturn = useMemo(() => {
     const historyIds = debtorHistory.map(({ id }) => id);

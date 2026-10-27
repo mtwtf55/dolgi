@@ -2,7 +2,7 @@ import { useDebtorsStore } from '@/stores/use-debtors-store/use-debtors-store';
 import { selectDebtorById } from '@/stores/use-debtors-store/use-debtors-store.selectors';
 import { selectDebtorHistory, useHistoryStore } from '@/stores/use-history-store';
 import { useSettingsStore } from '@/stores/use-settings-store';
-import { getFullName, getInitials } from '@/utils';
+import { getFullName, getInitials, roundMoney } from '@/utils';
 import { DebtHistoryItem } from '@components/debt-history-item';
 import { ReturnDebtDialog } from '@components/return-debt-dialog';
 import { createFileRoute } from '@tanstack/react-router';
@@ -37,7 +37,7 @@ function DebtorInfo() {
   const overduesCount = useOverduesCount(debtorId);
   const hasOverdues = overduesCount > 0;
 
-  const totalDebt = debtorHistory.reduce((acc, item) => acc + item.amount, 0);
+  const totalDebt = roundMoney(debtorHistory.reduce((acc, item) => acc + item.amount, 0));
   const initials = getInitials(getFullName(debtor.firstName, debtor.lastName));
 
   const handleDecreaseDebt = () => setIsReturnDebtDialogShown(true);
