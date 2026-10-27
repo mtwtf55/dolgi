@@ -19,7 +19,7 @@ export function Navigation() {
                 <Link
                   to={to}
                   activeProps={{
-                    className: '!text-primary !font-bold',
+                    className: '!text-primary !font-bold !bg-muted',
                   }}
                   className="text-base!"
                 >

@@ -36,3 +36,9 @@ How the data model fits together:
 **Path aliases** (in `tsconfig.json`, resolved by Vite through `resolve.tsconfigPaths`): `@/*` maps to `src/*`, `@components/*` to `src/components/*`, and `@ui/*` to `src/components/ui/*`.
 
 **PWA**: the manifest and icons are configured in `pwa.config.ts`, and the icons themselves are in `public/icons/`.
+
+## Code style
+
+Do not leave comments in code (no `//`, `/** */` or JSX comments), including in new files and edits. Keep names descriptive instead.
+
+Declare components as arrow functions (`export const Name = () => {}`). Use `function` declarations only where they are actually required.
