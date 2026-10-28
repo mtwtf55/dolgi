@@ -6,7 +6,11 @@ import { useHistoryStore } from '../use-history-store';
 import { HISTORY_STORE_PERSIST_KEY } from '../use-history-store/use-history-store.constants';
 import { useReturnStore } from '../use-return-store/use-return-store';
 import { RETURN_STORE_PERSIST_KEY } from '../use-return-store/use-return-store.constants';
-import { SETTINGS_STORE_PERSIST_KEY, USER_PASSWORD_HASH_KEY } from './use-settings-store.constants';
+import {
+  BIOMETRIC_CREDENTIAL_ID_KEY,
+  SETTINGS_STORE_PERSIST_KEY,
+  USER_PASSWORD_HASH_KEY,
+} from './use-settings-store.constants';
 import { type Theme, type UseSettingsStoreState } from './use-settings-store.types';
 
 export const useSettingsStore = create<UseSettingsStoreState>()(
@@ -17,6 +21,7 @@ export const useSettingsStore = create<UseSettingsStoreState>()(
         showHistoryMarkers: false,
         showOverdueDebtors: false,
         setPassword: false,
+        useBiometric: false,
       }) as UseSettingsStoreState,
     {
       name: SETTINGS_STORE_PERSIST_KEY,
@@ -40,8 +45,13 @@ export const setPassword = (flag: boolean) => {
   useSettingsStore.setState((state) => ({ ...state, setPassword: flag }));
 };
 
+export const setBiometric = (flag: boolean) => {
+  useSettingsStore.setState((state) => ({ ...state, useBiometric: flag }));
+};
+
 export const deleteAllData = () => {
   localStorage.removeItem(SETTINGS_STORE_PERSIST_KEY);
+  localStorage.removeItem(BIOMETRIC_CREDENTIAL_ID_KEY);
   localStorage.removeItem(HISTORY_STORE_PERSIST_KEY);
   localStorage.removeItem(RETURN_STORE_PERSIST_KEY);
   localStorage.removeItem(DEBTORS_STORE_PERSIST_KEY);
@@ -58,6 +68,16 @@ export const savePasswordHash = (hash: string) => {
 
 export const removePasswordHash = () => {
   localStorage.removeItem(USER_PASSWORD_HASH_KEY);
+};
+
+export const saveBiometricCredentialId = (credentialId: string) => {
+  localStorage.setItem(BIOMETRIC_CREDENTIAL_ID_KEY, credentialId);
+};
+
+export const getBiometricCredentialId = () => localStorage.getItem(BIOMETRIC_CREDENTIAL_ID_KEY);
+
+export const removeBiometricCredentialId = () => {
+  localStorage.removeItem(BIOMETRIC_CREDENTIAL_ID_KEY);
 };
 
 export const isPasswordCorrect = (hash: string) => {

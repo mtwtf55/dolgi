@@ -1,7 +1,10 @@
 import { useConfirmModal } from '@/hooks/useConfirmModal';
 import {
   deleteAllData,
+  removeBiometricCredentialId,
   removePasswordHash,
+  saveBiometricCredentialId,
+  setBiometric,
   setPassword,
   setTheme,
   showHistoryMarkers,
@@ -17,7 +20,8 @@ import { Field, FieldContent, FieldDescription, FieldLabel } from '@ui/field';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@ui/select';
 import { Separator } from '@ui/separator';
 import { Switch } from '@ui/switch';
-import { useId, useState, type PropsWithChildren } from 'react';
+import { isBiometricAvailable, registerBiometric } from '@/utils';
+import { useEffect, useId, useState, type PropsWithChildren } from 'react';
 import { toast } from 'sonner';
 import { useShallow } from 'zustand/shallow';
 
@@ -30,12 +34,18 @@ function Settings() {
   const showHistoryMarkersSwitchId = useId();
   const showOverdueDebtorsSwitchId = useId();
   const setPasswordSwitchId = useId();
+  const biometricSwitchId = useId();
+  const [isBiometricSupported, setIsBiometricSupported] = useState(false);
   const settings = useSettingsStore(useShallow((state) => state));
   const { Modal: DeleteAllDataConfirmModal, confirm: confirmDeleteAllData } =
     useConfirmModal(ConfirmModal);
   const { Modal: CancelPasswordConfirmModal, confirm: confirmCancelPassword } =
     useConfirmModal(ConfirmModal);
   const [isPasswordDialogOpened, setIsPasswordDialogOpened] = useState(false);
+
+  useEffect(() => {
+    isBiometricAvailable().then(setIsBiometricSupported);
+  }, []);
 
   const handleThemeChanged = (value: string) => {
     setTheme(value as Theme);
@@ -66,7 +76,27 @@ function Settings() {
 
       setPassword(false);
       removePasswordHash();
+      setBiometric(false);
+      removeBiometricCredentialId();
       toast.success('Вход по паролю отключен');
+    }
+  };
+
+  const handleBiometricSwitchChanged = async (checked: boolean) => {
+    if (!checked) {
+      setBiometric(false);
+      removeBiometricCredentialId();
+      toast.success('Вход по отпечатку отключен');
+      return;
+    }
+
+    try {
+      const credentialId = await registerBiometric();
+      saveBiometricCredentialId(credentialId);
+      setBiometric(true);
+      toast.success('Вход по отпечатку включен');
+    } catch {
+      toast.error('Не удалось включить вход по отпечатку');
     }
   };
 
@@ -130,6 +160,26 @@ function Settings() {
               checked={settings.setPassword}
             />
           </Field>
+          {isBiometricSupported && (
+            <Field
+              orientation="horizontal"
+              className="max-w-sm"
+              data-disabled={!settings.setPassword}
+            >
+              <FieldContent>
+                <FieldLabel htmlFor={biometricSwitchId}>Вход по отпечатку</FieldLabel>
+                <FieldDescription>
+                  Разблокировать приложение отпечатком пальца. Доступно при установленном пароле
+                </FieldDescription>
+              </FieldContent>
+              <Switch
+                id={biometricSwitchId}
+                onCheckedChange={handleBiometricSwitchChanged}
+                checked={settings.useBiometric}
+                disabled={!settings.setPassword}
+              />
+            </Field>
+          )}
         </Section>
         <Section title="Данные">
           <Field orientation="horizontal" className="max-w-sm" data-invalid>
